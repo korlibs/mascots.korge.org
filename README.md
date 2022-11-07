@@ -5,6 +5,8 @@
 These characters are available for free to everyone to be used in free and commercial games,
 fanarts and other uses, except for merchandising unless written explicit consent from soywiz.
 
+![](renders/512-Gest.webp) ![](renders/512-Koral.webp)
+
 ## Credits:
 
 * Jitto programmatic character, icon, logo & animations were created by [soywiz](https://soywiz.com/)
