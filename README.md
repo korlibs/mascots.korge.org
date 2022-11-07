@@ -19,3 +19,5 @@ fanarts and other uses, except for merchandising unless written explicit consent
 * Low Poly rigging for mixamo animations by [soywiz](https://soywiz.com/)
 
 * Initial Koral & Gest fanart by [Lyaluya_](https://twitter.com/Lyaluya_)
+
+![](renders/Fanart.webp)
