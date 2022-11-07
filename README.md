@@ -7,6 +7,8 @@ fanarts and other uses, except for merchandising unless written explicit consent
 
 ![](renders/512-Gest.webp) ![](renders/512-Koral.webp)
 
+![](renders/Gest-2D.webp) ![](renders/Koral-2D.webp)
+
 ## Credits:
 
 * Jitto programmatic character, icon, logo & animations were created by [soywiz](https://soywiz.com/)
@@ -21,5 +23,3 @@ fanarts and other uses, except for merchandising unless written explicit consent
 * Initial Koral & Gest fanart by [Lyaluya_](https://twitter.com/Lyaluya_)
 
 ![](renders/Fanart.webp)
-
-![](renders/Gest-2D.webp) ![](renders/Koral-2D.webp)
