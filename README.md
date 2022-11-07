@@ -21,3 +21,5 @@ fanarts and other uses, except for merchandising unless written explicit consent
 * Initial Koral & Gest fanart by [Lyaluya_](https://twitter.com/Lyaluya_)
 
 ![](renders/Fanart.webp)
+
+![](renders/Gest-2D.webp) ![](renders/Koral-2D.webp)
