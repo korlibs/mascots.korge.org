@@ -1,4 +1,4 @@
-## Koral, Gest & Jitto characters are copyrighted to soywiz and the KorGE Organization
+## Koral, Gest & Jitto characters are copyrighted to soywiz and the KorGE Organization and provided for free to you under the following conditions:
 
 These characters are available for free to everyone to be used in free and commercial games,
 fanarts and other uses, except for merchandising unless written explicit consent from soywiz.
