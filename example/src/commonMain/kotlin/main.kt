@@ -1,6 +1,7 @@
 import com.soywiz.klock.*
 import com.soywiz.korev.*
 import com.soywiz.korge.*
+import com.soywiz.korge.animate.*
 import com.soywiz.korge.dragonbones.*
 import com.soywiz.korge.input.*
 import com.soywiz.korge.scene.*
@@ -118,13 +119,14 @@ class MyScene : Scene() {
         //armatureDisplay.animation.play("walk")
         //println(gest.animation.animationNames)
 
-        val animator = newAnimator()
+        val animator = animator()
         //tween(textContainer::scale[1.0], time = 0.1.seconds)
         fun appearText(str: String) {
+            //animator.complete()
             animator.tween(
-                //text::scale[0.0],
+                text::scale[0.0],
                 text::alpha[0.0],
-                time = 0.1.seconds,
+                time = 0.025.seconds,
                 easing = Easing.EASE,
             )
             animator.block(name = "setText") {
@@ -134,18 +136,52 @@ class MyScene : Scene() {
                 text.autoScaling = true
                 //text._renderInternal(null)
             }
-            animator.tween(
-                textContainer::scale[1.0],
-                textContainer::alpha[1.0],
-                text::scale[0.0, 1.0],
-                text::alpha[1.0],
-                V2Lazy { textBubble::width[text.width + 32] },
-                V2Lazy { textBubble::height[text.height + 32] },
-                V2Callback { updateTextContainerPos() },
-                time = 0.5.seconds,
-                easing = Easing.EASE,
-                name = "appearText"
-            )
+            if (true) {
+            //if (false) {
+                animator.sequenceLazy {
+                //animator.sequence {
+                    parallel {
+                        //tween(text::pos.incr(Point(10, 10)), time = 0.5.seconds)
+                        //tween(text::pos.incr(0, 30), time = 0.5.seconds)
+                        //tween(text::rotation.incr(30.degrees), time = 0.5.seconds)
+                        //rotateBy(text, 30.degrees, time = 0.seconds)
+                        //moveInPathWithSpeed(text, buildVectorPath {
+                        //    circle(0, 0, 50)
+                        //})
+                        //tween(text::rotation.incr(30.degrees), time = 0.seconds)
+                        //tween(textContainer::scale.incr(+0.1), time = 0.5.seconds)
+                        //textContainer.rotateBy(15.degrees)
+                        tween(
+                            textContainer::scale[1.0],
+                            textContainer::alpha[1.0],
+                            text::scale[0.0, 1.0],
+                            text::alpha[1.0],
+                            textBubble::width[text.width + 32],
+                            textBubble::height[text.height + 32],
+                            V2Callback { updateTextContainerPos() },
+                            time = 0.5.seconds,
+                            easing = Easing.EASE,
+                            name = "appearText"
+                        )
+                    }
+                    block {
+                        println("DONE APPEAR TEXT!")
+                    }
+                }
+            } else {
+                animator.tween(
+                    textContainer::scale[1.0],
+                    textContainer::alpha[1.0],
+                    text::scale[0.0, 1.0],
+                    text::alpha[1.0],
+                    V2Lazy { textBubble::width[text.width + 32] },
+                    V2Lazy { textBubble::height[text.height + 32] },
+                    V2Callback { updateTextContainerPos() },
+                    time = 0.5.seconds,
+                    easing = Easing.EASE,
+                    name = "appearText"
+                )
+            }
         }
         fun disappearText(fast: Boolean = false) {
             animator.tween(
@@ -169,14 +205,17 @@ class MyScene : Scene() {
             animator.cancel()
             //disappearText(fast = true)
             appearText(str)
+            animator.block { println("APPEAR TEXT DONE") }
             animator.wait(2.seconds)
+            animator.block { println("WAIT DONE") }
             disappearText()
+            animator.block { println("DISAPPEAR TEXT DONE") }
         }
 
         var nn = 0
         fun randomTalk() {
             val texts = listOf(
-                "HELLO WORLD!",
+                "HELLO WORLD 2!",
                 "HELLO WORLD!\nTHIS IS A TEST!",
                 "AWESOME!",
                 "THIS IS PURE\nAWESOMINESS",
@@ -197,8 +236,8 @@ class MyScene : Scene() {
             }
         }
 
-        talk("WAY!")
-        animator.awaitComplete()
+        talk("Cool!\nThe new animator\nworks just great!\nMove me with <- and -> arrows,\nand press RETURN to talk")
+        //animator.awaitComplete()
 
         println("COMPLETED!")
 
@@ -240,20 +279,5 @@ class NinePatchShapeView(
 
     override fun getLocalBoundsInternal(out: Rectangle) {
         graphics.getLocalBoundsInternal(out)
-    }
-}
-
-private object V2CallbackSupport {
-    var dummy: Unit = Unit
-}
-
-fun V2Callback(callback: (Double) -> Unit): V2<Unit> = V2(V2CallbackSupport::dummy, Unit, Unit, { ratio, _, _ -> callback(ratio) }, true)
-fun <T> V2CallbackT(callback: (Double) -> Unit): V2<T> = V2Callback { callback(it) } as V2<T>
-
-fun <T> V2Lazy(callback: () -> V2<T>): V2<T> {
-    var value: V2<T>? = null
-    return V2CallbackT {
-        if (value == null) value = callback()
-        value!!.set(it)
     }
 }

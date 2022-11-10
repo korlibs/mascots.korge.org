@@ -1,7 +1,8 @@
 import com.soywiz.korge.gradle.*
 
 plugins {
-    id("com.soywiz.korge") version "3.3.1"
+    id("com.soywiz.korge") version "3.4.0"
+	//id("com.soywiz.korge") version "999.0.0.999"
 }
 
 korge {
@@ -17,8 +18,8 @@ korge {
 // To selectively enable targets
 
 	targetJvm()
-	targetJs()
-	targetDesktop()
+	//targetJs()
+	//targetDesktop()
 	//targetIos()
 	//targetAndroidIndirect() // targetAndroidDirect()
 
