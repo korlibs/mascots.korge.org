@@ -1,13 +1,17 @@
 # korge-mascots
 
-## Koral, Gest & Jitto characters are copyrighted to soywiz and the KorGE Organization and provided for free to you under the following conditions:
-
-These characters are available for free to everyone to be used in free and commercial games,
-fanarts and other uses, except for merchandising unless written explicit consent from soywiz.
+## Koral, Gest & Jitto
 
 ![](renders/512-Gest.webp) ![](renders/512-Koral.webp)
 
 ![](renders/Gest-2D.webp) ![](renders/Koral-2D.webp)
+
+## Usage and license:
+
+These characters are available for free to everyone to be used in free and commercial games,
+fanarts and other uses, except for merchandising unless written explicit consent from soywiz.
+
+<https://github.com/korlibs/korge-mascots/blob/main/LICENSE.md>
 
 ## Credits:
 
