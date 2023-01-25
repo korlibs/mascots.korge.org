@@ -1,6 +1,6 @@
 # KProject: https://github.com/korlibs/kproject
 dependencies:
-  - git::korge-dragonbones::korlibs/korge-dragonbones::/korge-dragonbones::7e8ef419eef9c62d4fa1df59a2f215622f3f4624
+  - git::korge-dragonbones::korlibs/korge-dragonbones::/korge-dragonbones::6f6bfa840c446c7c9c685e39eacdaef0faf9a0f2
   #- git::korge-fleks::korlibs/korge-fleks::/korge-fleks::94908e913118b229812b0d447ffc161f6f8f5f78
   #- git::korge-ldtk::korlibs/korge-ldtk::/korge-ldtk::ac5b6fd21debb85db74f48c2fc6960ff9690457b
   #- git::korge-compose::korlibs/korge-compose::/korge-compose::c6a980492155bb2cc480e3beda0fef4d6312ac3b
