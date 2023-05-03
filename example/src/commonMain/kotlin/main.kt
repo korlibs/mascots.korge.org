@@ -10,6 +10,10 @@ import korlibs.korge.animate.tween
 import korlibs.korge.animate.wait
 import korlibs.korge.dragonbones.KorgeDbFactory
 import korlibs.korge.input.keys
+import korlibs.korge.mascots.KorgeMascotsAnimations
+import korlibs.korge.mascots.buildArmatureDisplayGest
+import korlibs.korge.mascots.buildArmatureDisplayKoral
+import korlibs.korge.mascots.loadKorgeMascots
 import korlibs.korge.scene.Scene
 import korlibs.korge.scene.sceneContainer
 import korlibs.korge.tween.V2Callback
@@ -74,8 +78,7 @@ class MyScene : Scene() {
         val SCALE = 0.6
         val factory = KorgeDbFactory()
         val res = resourcesVfs
-        factory.loadSkeletonAndAtlas(res["Koral_ske.dbbin"], res["Koral_tex.json"])
-        factory.loadSkeletonAndAtlas(res["Gest_ske.dbbin"], res["Gest_tex.json"])
+        factory.loadKorgeMascots(res)
 
         //val armatureDisplay = factory.buildArmatureDisplay("Koral")!!
         var bubbleAnchorPoint = Point()
@@ -97,13 +100,13 @@ class MyScene : Scene() {
             .filters(DropshadowFilter(dropX = 0f, dropY = 0f))
         val text = textContainer.text("hello", color = Colors.RED, textSize = 24f).xy(10, 10)
 
-        val gest = factory.buildArmatureDisplay("Gest")!!.position(256, 490).scale(SCALE).addTo(this).also {
-            it.animation.play("idle")
+        val gest = factory.buildArmatureDisplayGest()!!.position(256, 490).scale(SCALE).addTo(this).also {
+            it.animation.play(KorgeMascotsAnimations.IDLE)
         }
 
         val gestHeight = gest.scaledHeight
-        val koral = factory.buildArmatureDisplay("Koral")!!.position(100, 490).scale(SCALE).addTo(this).also {
-            it.animation.play("idle")
+        val koral = factory.buildArmatureDisplayKoral()!!.position(100, 490).scale(SCALE).addTo(this).also {
+            it.animation.play(KorgeMascotsAnimations.IDLE)
         }
 
         var moving = false
@@ -117,10 +120,10 @@ class MyScene : Scene() {
             if (!up) {
                 gest.scaleX = gest.scaleX.absoluteValue * if (right) +1f else -1f
                 gest.x += if (right) +3 else -3
-                if (!moving) gest.animation.fadeIn("walk", 0.3.seconds)
+                if (!moving) gest.animation.fadeIn(KorgeMascotsAnimations.WALK, 0.3.seconds)
                 moving = true
             } else {
-                if (moving) gest.animation.fadeIn("idle", 0.3.seconds)
+                if (moving) gest.animation.fadeIn(KorgeMascotsAnimations.IDLE, 0.3.seconds)
                 moving = false
             }
             updateTextContainerPos()
@@ -132,7 +135,6 @@ class MyScene : Scene() {
             up(Key.RIGHT) { updated(right = false, up = true) }
         }
         updated(right = true, up = true)
-        //armatureDisplay.animation.play("walk")
         //println(gest.animation.animationNames)
 
         val animator = animator()
