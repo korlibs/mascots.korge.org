@@ -1,22 +1,37 @@
-import com.soywiz.klock.*
-import com.soywiz.korev.*
-import com.soywiz.korge.*
-import com.soywiz.korge.animate.*
-import com.soywiz.korge.dragonbones.*
-import com.soywiz.korge.input.*
-import com.soywiz.korge.scene.*
-import com.soywiz.korge.tween.*
-import com.soywiz.korge.ui.*
-import com.soywiz.korge.view.*
-import com.soywiz.korge.view.filter.*
-import com.soywiz.korim.color.*
-import com.soywiz.korim.vector.*
-import com.soywiz.korim.vector.format.*
-import com.soywiz.korio.file.std.*
-import com.soywiz.korma.geom.*
-import com.soywiz.korma.interpolation.*
+import korlibs.event.Key
+import korlibs.image.color.Colors
+import korlibs.image.vector.*
+import korlibs.image.vector.format.readSVG
+import korlibs.io.file.std.resourcesVfs
+import korlibs.korge.Korge
+import korlibs.korge.animate.animator
+import korlibs.korge.animate.block
+import korlibs.korge.animate.tween
+import korlibs.korge.animate.wait
+import korlibs.korge.dragonbones.KorgeDbFactory
+import korlibs.korge.input.keys
+import korlibs.korge.scene.Scene
+import korlibs.korge.scene.sceneContainer
+import korlibs.korge.tween.V2Callback
+import korlibs.korge.tween.V2Lazy
+import korlibs.korge.tween.get
+import korlibs.korge.ui.UIView
+import korlibs.korge.ui.clicked
+import korlibs.korge.ui.uiButton
+import korlibs.korge.view.*
+import korlibs.korge.view.filter.DropshadowFilter
+import korlibs.korge.view.filter.filters
+import korlibs.math.geom.Anchor
+import korlibs.math.geom.Point
+import korlibs.math.geom.Rectangle
+import korlibs.math.geom.Size
+import korlibs.math.interpolation.Easing
+import korlibs.time.milliseconds
+import korlibs.time.seconds
+import kotlin.math.absoluteValue
 
-suspend fun main() = Korge(width = 512, height = 512, bgcolor = Colors["#2b2b2b"]) {
+suspend fun main() = Korge(windowSize = Size(512, 512), backgroundColor = Colors["#2b2b2b"]) {
+
     val sceneContainer = sceneContainer()
 
     sceneContainer.changeTo({ MyScene() })
@@ -56,7 +71,7 @@ class MyScene : Scene() {
     override suspend fun SContainer.sceneMain() {
         //Dragon
         //JittoViewExample.runInContainer(this)
-        val SCALE = 0.3
+        val SCALE = 0.6
         val factory = KorgeDbFactory()
         val res = resourcesVfs
         factory.loadSkeletonAndAtlas(res["Koral_ske.dbbin"], res["Koral_tex.json"])
@@ -78,13 +93,14 @@ class MyScene : Scene() {
         val ninePatch = bubbleShape.toNinePatchFromGuides(guideColor = Colors.FUCHSIA)
 
         val textContainer = container().xy(300, 300).scale(1.0).alpha(0.0)
-        val textBubble = textContainer.ninePatchShapeView(ninePatch).size(10, 10)
-            .filters(DropshadowFilter(dropX = 0.0, dropY = 0.0))
-        val text = textContainer.text("hello", color = Colors.RED, textSize = 24.0).xy(10, 10)
+        val textBubble = textContainer.ninePatchShapeView(ninePatch, renderer = GraphicsRenderer.SYSTEM).size(10, 10)
+            .filters(DropshadowFilter(dropX = 0f, dropY = 0f))
+        val text = textContainer.text("hello", color = Colors.RED, textSize = 24f).xy(10, 10)
 
         val gest = factory.buildArmatureDisplay("Gest")!!.position(256, 490).scale(SCALE).addTo(this).also {
             it.animation.play("idle")
         }
+
         val gestHeight = gest.scaledHeight
         val koral = factory.buildArmatureDisplay("Koral")!!.position(100, 490).scale(SCALE).addTo(this).also {
             it.animation.play("idle")
@@ -99,7 +115,7 @@ class MyScene : Scene() {
         }
         fun updated(right: Boolean, up: Boolean) {
             if (!up) {
-                gest.scaleX = if (right) +0.3 else -0.3
+                gest.scaleX = gest.scaleX.absoluteValue * if (right) +1f else -1f
                 gest.x += if (right) +3 else -3
                 if (!moving) gest.animation.fadeIn("walk", 0.3.seconds)
                 moving = true
@@ -124,7 +140,7 @@ class MyScene : Scene() {
         fun appearText(str: String) {
             //animator.complete()
             animator.tween(
-                text::scale[0.0],
+                text::scaleAvg[0.0],
                 text::alpha[0.0],
                 time = 0.025.seconds,
                 easing = Easing.EASE,
@@ -152,9 +168,9 @@ class MyScene : Scene() {
                         //tween(textContainer::scale.incr(+0.1), time = 0.5.seconds)
                         //textContainer.rotateBy(15.degrees)
                         tween(
-                            textContainer::scale[1.0],
+                            textContainer::scaleAvg[1.0],
                             textContainer::alpha[1.0],
-                            text::scale[0.0, 1.0],
+                            text::scaleAvg[0.0, 1.0],
                             text::alpha[1.0],
                             textBubble::width[text.width + 32],
                             textBubble::height[text.height + 32],
@@ -170,9 +186,9 @@ class MyScene : Scene() {
                 }
             } else {
                 animator.tween(
-                    textContainer::scale[1.0],
+                    textContainer::scaleAvg[1.0],
                     textContainer::alpha[1.0],
-                    text::scale[0.0, 1.0],
+                    text::scaleAvg[0.0, 1.0],
                     text::alpha[1.0],
                     V2Lazy { textBubble::width[text.width + 32] },
                     V2Lazy { textBubble::height[text.height + 32] },
@@ -185,11 +201,11 @@ class MyScene : Scene() {
         }
         fun disappearText(fast: Boolean = false) {
             animator.tween(
-                textContainer::scale[0.01],
+                textContainer::scaleAvg[0.01],
                 textContainer::alpha[0.01],
                 textBubble::width[0.01],
                 textBubble::height[0.01],
-                text::scale[0.01],
+                text::scaleAvg[0.01],
                 V2Callback { updateTextContainerPos() },
                 time = if (fast) 0.05.seconds else 0.2.seconds,
                 easing = Easing.EASE,
@@ -236,7 +252,7 @@ class MyScene : Scene() {
             }
         }
 
-        talk("Cool!\nThe new animator\nworks just great!\nMove me with <- and -> arrows,\nand press RETURN to talk")
+        talk("Cool 2!\nThe new animator\nworks just great!\nMove me with <- and -> arrows,\nand press RETURN to talk")
         //animator.awaitComplete()
 
         println("COMPLETED!")
@@ -256,14 +272,13 @@ inline fun Container.ninePatchShapeView(
 class NinePatchShapeView(
     shape: NinePatchShape,
     renderer: GraphicsRenderer,
-) : UIView(shape.size.width, shape.size.height), Anchorable {
+) : UIView(shape.size), Anchorable {
     private val graphics = graphics(shape.shape, renderer = renderer)
     var boundsIncludeStrokes: Boolean by graphics::boundsIncludeStrokes
     var antialiased: Boolean by graphics::antialiased
     var smoothing: Boolean by graphics::smoothing
     var autoScaling: Boolean by graphics::autoScaling
-    override var anchorX: Double by graphics::anchorX
-    override var anchorY: Double by graphics::anchorY
+    override var anchor: Anchor by graphics::anchor
     var renderer: GraphicsRenderer by graphics::renderer
 
     var shape: NinePatchShape = shape
@@ -277,7 +292,7 @@ class NinePatchShapeView(
         graphics.shape = shape.transform(Size(width, height))
     }
 
-    override fun getLocalBoundsInternal(out: Rectangle) {
-        graphics.getLocalBoundsInternal(out)
+    override fun getLocalBoundsInternal(): Rectangle {
+        return graphics.getLocalBoundsInternal()
     }
 }

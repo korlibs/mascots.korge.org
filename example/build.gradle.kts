@@ -1,7 +1,8 @@
-import com.soywiz.korge.gradle.*
+import korlibs.korge.gradle.*
 
 plugins {
-    id("com.soywiz.korge") version "4.0.0-alpha-2"
+    id("com.soywiz.korge") version "4.0.0-rc4"
+	//id("com.soywiz.korge") version "999.0.0.999"
 }
 
 korge {
@@ -11,7 +12,8 @@ korge {
 	targetJs()
 	targetDesktop()
 	targetIos()
-	targetAndroidDirect()
+	targetAndroid()
+
 	serializationJson()
 }
 
