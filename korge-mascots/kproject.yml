@@ -1,3 +1,2 @@
-name: "korge-mascots"
 dependencies:
-  - git::korge-dragonbones::korlibs/korge-dragonbones::/korge-dragonbones::0.0.4::84735fb83df956e2532eb32deac7e85c4679be74
+  - https://github.com/korlibs/korge-dragonbones/tree/0.0.4/korge-dragonbones::84735fb83df956e2532eb32deac7e85c4679be74
