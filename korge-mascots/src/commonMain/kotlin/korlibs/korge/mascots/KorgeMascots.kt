@@ -8,6 +8,7 @@ import korlibs.korge.dragonbones.KorgeDbFactory
 object KorgeMascotsAnimations {
     val IDLE = "idle"
     val WALK = "walk"
+    val JUMP = "jump"
 }
 
 suspend fun KorgeDbFactory.loadKorgeMascots(res: VfsFile = resourcesVfs) {
