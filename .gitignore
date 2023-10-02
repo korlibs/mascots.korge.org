@@ -1,2 +1,11 @@
 .DS_Store
 .blend1
+/modules
+/deps
+/.gradle
+/.idea
+/.fleet
+/build
+/local.properties
+/korge.keystore
+/src/main
