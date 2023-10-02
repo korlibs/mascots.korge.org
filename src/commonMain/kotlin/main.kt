@@ -91,7 +91,7 @@ class MyScene : Scene() {
                     true
                 }
             }
-        var bubbleAnchor = Anchor(bubbleAnchorPoint.x / bubbleShape.width, bubbleAnchorPoint.y / bubbleShape.height)
+        val bubbleAnchor = Anchor(bubbleAnchorPoint.x / bubbleShape.width, bubbleAnchorPoint.y / bubbleShape.height)
         //println("bubbleAnchor=$bubbleAnchor")
         val ninePatch = bubbleShape.toNinePatchFromGuides(guideColor = Colors.FUCHSIA)
 
